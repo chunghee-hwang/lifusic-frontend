@@ -16,7 +16,6 @@ function useLoginMutation() {
       }
       queryClient.invalidateQueries({ queryKey: USER_KEY });
     },
-    retry: 1,
   });
   return mutation;
 }

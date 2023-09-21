@@ -25,3 +25,10 @@ type UserData = {
   name: string;
   role: Role;
 };
+
+type UserContext = {
+  isLogin: boolean;
+  userData?: UserData;
+  setUserData: Function;
+  setIsLogin: Function;
+};

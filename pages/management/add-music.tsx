@@ -1,4 +1,4 @@
-export default function Index() {
+export default function AddMusicPage() {
   return (
     <>
       <div>Hello World!</div>
