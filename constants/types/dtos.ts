@@ -11,7 +11,7 @@ type LoginSuccessResponse = {
   token: string;
 };
 
-type Role = 'customer' | 'admin';
+type Role = 'admin' | 'customer';
 
 type SignupRequest = {
   email: string;
@@ -28,7 +28,6 @@ type UserData = {
 
 type UserContext = {
   isLogin: boolean;
-  userData?: UserData;
-  setUserData: Function;
-  setIsLogin: Function;
+  logout: Function;
+  userData?: UserData | null;
 };

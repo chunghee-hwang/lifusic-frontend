@@ -10,8 +10,9 @@ function useLogoutMutation() {
     mutationFn: LOGOUT,
     onSuccess: () => {
       Cookies.remove(AUTH_KEY);
-      queryClient.invalidateQueries({ queryKey: USER_KEY });
+      queryClient.invalidateQueries(USER_KEY);
     },
+    retry: false,
   });
 
   return mutation;

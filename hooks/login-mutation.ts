@@ -13,9 +13,10 @@ function useLoginMutation() {
         Cookies.set(AUTH_KEY, data.token, {
           expires: 1,
         });
+        queryClient.invalidateQueries(USER_KEY);
       }
-      queryClient.invalidateQueries({ queryKey: USER_KEY });
     },
+    retry: false,
   });
   return mutation;
 }

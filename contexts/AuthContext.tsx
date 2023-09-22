@@ -1,9 +1,10 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import useLogoutMutation from '@/hooks/logout-mutation';
+import useUserDataQuery from '@/hooks/user-data-query';
+import { createContext, useContext, useMemo } from 'react';
 
 const AuthContext = createContext<UserContext>({
   isLogin: false,
-  setIsLogin: () => {},
-  setUserData: () => {},
+  logout: () => {},
 });
 
 AuthContext.displayName = 'AuthContext';
@@ -15,22 +16,19 @@ export const useAuth = () => {
 export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [userData, setUserData] = useState<UserData>({
-    id: 777,
-    name: '홍길동',
-    email: 'hongkil@naver.com',
-    role: 'customer',
-  });
-  const [isLogin, setIsLogin] = useState<boolean>(true);
-
+  const {
+    isSuccess: isGetUserDataSuccess,
+    data: userData,
+    isLoading,
+  } = useUserDataQuery();
+  const { mutate: logoutMutate } = useLogoutMutation();
   const value = useMemo(
     () => ({
-      userData,
-      isLogin,
-      setUserData,
-      setIsLogin,
+      userData: isGetUserDataSuccess ? userData : null,
+      isLogin: isGetUserDataSuccess,
+      logout: () => logoutMutate(),
     }),
-    [userData, isLogin]
+    [isGetUserDataSuccess, userData, isLoading]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

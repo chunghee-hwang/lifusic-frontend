@@ -88,8 +88,8 @@ const SubLinks: React.FC = () => {
   }
   return (
     <Ul>
-      {subLinks.map((subLinkProps) => (
-        <SubLink {...subLinkProps} />
+      {subLinks.map(({ key, title, url, isActive }) => (
+        <SubLink key={key} title={title} url={url} isActive={isActive} />
       ))}
     </Ul>
   );
