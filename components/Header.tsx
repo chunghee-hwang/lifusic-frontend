@@ -9,8 +9,11 @@ const Navigation = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 5rem;
+  padding: 1rem 5rem;
   border-bottom: 1px solid gray;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 `;
 
 const MainLink = styled(Link)`

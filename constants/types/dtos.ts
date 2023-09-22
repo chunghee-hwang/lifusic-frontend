@@ -13,9 +13,18 @@ type LoginSuccessResponse = {
 
 type Role = 'admin' | 'customer';
 
-type SignupRequest = {
+type SignUpRequest = {
   email: string;
   name: string;
+  password: string;
+  role: Role;
+};
+
+type SignUpRequestForm = {
+  email: string;
+  name: string;
+  password: string;
+  passwordConfirm: string;
   role: Role;
 };
 

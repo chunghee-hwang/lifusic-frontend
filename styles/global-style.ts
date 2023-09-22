@@ -22,7 +22,10 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 70%;
+  flex-direction: column;
+  height: calc(100% - 5rem);
+  font-size: 1rem;
+  width: 100%;
 `;
 
 export const Space = styled.div`

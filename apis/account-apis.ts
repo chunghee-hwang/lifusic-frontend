@@ -15,7 +15,7 @@ export const LOGOUT = async (): Promise<CommonResponse> => {
 };
 
 export const SIGNUP = async (
-  request: SignupRequest
+  request: SignUpRequest
 ): Promise<CommonResponse> => {
   const response = await axios.post('/api/account/user', request);
   return response.data;

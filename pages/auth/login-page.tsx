@@ -8,24 +8,15 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { styled } from 'styled-components';
 import { useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { Container } from '@/styles/global-style';
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 70%;
-  font-size: 1rem;
-  width: 100%;
-`;
-
 const H1 = styled.h1`
-  font-size: 5rem;
+  font-size: 3rem;
 `;
 
 const TextField = styled(TF)`
