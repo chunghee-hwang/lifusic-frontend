@@ -1,4 +1,4 @@
-import pageUrls from '@/constants/page-urls';
+import Pages from '@/constants/pages';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -20,7 +20,7 @@ export default function LogoutPage() {
 
   useEffect(() => {
     if (!isLogin) {
-      router.replace(pageUrls.LOGIN_PAGE);
+      router.replace(Pages.LOGIN_PAGE.URL);
     }
   }, [isLogin, userData]);
 

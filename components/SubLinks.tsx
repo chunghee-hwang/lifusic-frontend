@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import PageUrls from '@/constants/page-urls';
+import Pages from '@/constants/pages';
 import Link from 'next/link';
 import { styled } from 'styled-components';
 
@@ -38,49 +38,49 @@ const SubLinks: React.FC = () => {
   const pathname = router.pathname;
   const subLinks: Array<SubLinkProps> = [];
   switch (pathname) {
-    case PageUrls.LOGIN_PAGE:
+    case Pages.LOGIN_PAGE.URL:
       subLinks.push({
         key: 'login',
         title: '로그인',
       });
       break;
-    case PageUrls.SIGNUP_PAGE:
+    case Pages.SIGNUP_PAGE.URL:
       subLinks.push({
         key: 'signup',
         title: '회원 가입',
       });
       break;
-    case PageUrls.MUSIC_ADMIN_CONSOLE_PAGE:
-    case PageUrls.MUSIC_ADD_PAGE:
+    case Pages.MUSIC_ADMIN_CONSOLE_PAGE.URL:
+    case Pages.MUSIC_ADD_PAGE.URL:
       subLinks.push(
         {
           key: 'musicConsole',
           title: '음악 관리',
-          url: PageUrls.MUSIC_ADMIN_CONSOLE_PAGE,
-          isActive: pathname === PageUrls.MUSIC_ADMIN_CONSOLE_PAGE,
+          url: Pages.MUSIC_ADMIN_CONSOLE_PAGE.URL,
+          isActive: pathname === Pages.MUSIC_ADMIN_CONSOLE_PAGE.URL,
         },
         {
           key: 'addMusic',
           title: '음악 추가',
-          url: PageUrls.MUSIC_ADD_PAGE,
-          isActive: pathname === PageUrls.MUSIC_ADD_PAGE,
+          url: Pages.MUSIC_ADD_PAGE.URL,
+          isActive: pathname === Pages.MUSIC_ADD_PAGE.URL,
         }
       );
       break;
-    case PageUrls.MUSIC_SEARCH_PAGE:
-    case PageUrls.MUSIC_PLAYLIST_PAGE:
+    case Pages.MUSIC_SEARCH_PAGE.URL:
+    case Pages.MUSIC_PLAYLIST_PAGE.URL:
       subLinks.push(
         {
           key: 'searchMusic',
           title: '음악 찾기',
-          url: PageUrls.MUSIC_SEARCH_PAGE,
-          isActive: pathname === PageUrls.MUSIC_SEARCH_PAGE,
+          url: Pages.MUSIC_SEARCH_PAGE.URL,
+          isActive: pathname === Pages.MUSIC_SEARCH_PAGE.URL,
         },
         {
           key: 'playlist',
           title: '재생 목록',
-          url: PageUrls.MUSIC_PLAYLIST_PAGE,
-          isActive: pathname === PageUrls.MUSIC_PLAYLIST_PAGE,
+          url: Pages.MUSIC_PLAYLIST_PAGE.URL,
+          isActive: pathname === Pages.MUSIC_PLAYLIST_PAGE.URL,
         }
       );
       break;

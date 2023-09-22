@@ -1,5 +1,5 @@
 import { UserRole } from '@/constants/constants';
-import pageUrls from '@/constants/page-urls';
+import Pages from '@/constants/pages';
 import { useAuth } from '@/contexts/AuthContext';
 import { Container } from '@/styles/global-style';
 import { useRouter } from 'next/router';
@@ -11,7 +11,7 @@ export default function CheckUserDataPage() {
 
   useEffect(() => {
     if (!isLogin) {
-      router.replace(pageUrls.LOGIN_PAGE);
+      router.replace(Pages.LOGIN_PAGE.URL);
     }
   }, [isLogin]);
 
@@ -19,10 +19,10 @@ export default function CheckUserDataPage() {
     if (userData) {
       switch (userData.role) {
         case UserRole.ADMIN:
-          router.replace(pageUrls.MUSIC_ADMIN_CONSOLE_PAGE);
+          router.replace(Pages.MUSIC_ADMIN_CONSOLE_PAGE.URL);
           break;
         case UserRole.CUSTOMER:
-          router.replace(pageUrls.MUSIC_SEARCH_PAGE);
+          router.replace(Pages.MUSIC_SEARCH_PAGE.URL);
           break;
         default:
       }

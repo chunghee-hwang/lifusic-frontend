@@ -1,4 +1,4 @@
-import PageUrls from '@/constants/page-urls';
+import Pages from '@/constants/pages';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -43,16 +43,16 @@ const UserProfile: React.FC = () => {
     [userData?.email]
   );
 
-  if (pathname == PageUrls.LOGIN_PAGE) {
+  if (pathname == Pages.LOGIN_PAGE.URL) {
     return (
-      <LinkComponent href={PageUrls.SIGNUP_PAGE}>
+      <LinkComponent href={Pages.SIGNUP_PAGE.URL}>
         <Text>회원 가입</Text>
       </LinkComponent>
     );
   }
-  if (pathname == PageUrls.SIGNUP_PAGE || !isLogin || !userData) {
+  if (pathname == Pages.SIGNUP_PAGE.URL || !isLogin || !userData) {
     return (
-      <LinkComponent href={PageUrls.LOGIN_PAGE}>
+      <LinkComponent href={Pages.LOGIN_PAGE.URL}>
         <Text>로그인</Text>
       </LinkComponent>
     );

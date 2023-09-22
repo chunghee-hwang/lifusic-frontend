@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import PageUrls from '@/constants/page-urls';
+import Pages from '@/constants/pages';
 import useLoginMutation from '@/hooks/login-mutation';
 import { Alert, TextField as TF } from '@mui/material';
 import { LoadingButton as LBtn } from '@mui/lab';
@@ -64,7 +64,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isLogin) {
-      router.replace(PageUrls.CHECK_USER_DATA_PAGE);
+      router.replace(Pages.CHECK_USER_DATA_PAGE.URL);
     }
   }, [isLogin]);
 
@@ -96,7 +96,7 @@ export default function LoginPage() {
           로그인
         </LoadingButton>
       </Form>
-      <SignUpLink href={PageUrls.SIGNUP_PAGE}>회원 가입</SignUpLink>
+      <SignUpLink href={Pages.SIGNUP_PAGE.URL}>회원 가입</SignUpLink>
 
       {!isLoginLoading && isLoginError && (
         <Alert severity="error">

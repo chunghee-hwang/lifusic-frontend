@@ -1,4 +1,4 @@
-import PageUrls from '@/constants/page-urls';
+import Pages from '@/constants/pages';
 import { useAuth } from '@/contexts/AuthContext';
 import ColorUtils from '@/utils/color';
 import { Avatar, Button } from '@mui/material';
@@ -45,7 +45,7 @@ const AvatarComponent = styled(Avatar)`
 `;
 
 const LogoutButton = styled(Button)`
-  margin-top: 0.5rem;
+  margin-top: 0.5rem !important;
 `;
 
 const UserDetailView: React.FC = () => {
@@ -77,7 +77,7 @@ const UserDetailView: React.FC = () => {
       <LogoutButton
         variant="contained"
         size="small"
-        href={PageUrls.LOGOUT_PAGE}
+        href={Pages.LOGOUT_PAGE.URL}
         color="warning"
       >
         로그아웃
