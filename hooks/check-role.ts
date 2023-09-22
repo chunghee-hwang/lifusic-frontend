@@ -8,23 +8,25 @@ import { useEffect, useState } from 'react';
 function useCheckRole() {
   const router = useRouter();
 
-  const { isLogin, userData } = useAuth();
+  const { isLogin, userData, isUserDataLoading } = useAuth();
   const [isAuthorized, setIsAuthorized] = useState(true);
 
   useEffect(() => {
-    const matchedPage = Object.values(Pages).find(
-      (page) => page.URL === router.pathname
-    );
-    if (!matchedPage) {
-      setIsAuthorized(false);
-    } else {
-      if (matchedPage.ROLE === 'ALL') {
-        setIsAuthorized(true);
+    if (!isUserDataLoading) {
+      const matchedPage = Object.values(Pages).find(
+        (page) => page.URL === router.pathname
+      );
+      if (!matchedPage) {
+        setIsAuthorized(false);
       } else {
-        setIsAuthorized(isLogin && matchedPage.ROLE === userData?.role);
+        if (matchedPage.ROLE === 'ALL') {
+          setIsAuthorized(true);
+        } else {
+          setIsAuthorized(isLogin && matchedPage.ROLE === userData?.role);
+        }
       }
     }
-  }, [isLogin, userData, router]);
+  }, [isUserDataLoading, isLogin, userData, router]);
 
   useEffect(() => {
     if (!isAuthorized) {

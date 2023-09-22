@@ -4,6 +4,7 @@ import { createContext, useContext, useMemo } from 'react';
 
 const AuthContext = createContext<UserContext>({
   isLogin: false,
+  isUserDataLoading: false,
   logout: () => {},
 });
 
@@ -27,6 +28,7 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
       userData: isGetUserDataSuccess ? userData : null,
       isLogin: isGetUserDataSuccess,
       logout: () => logoutMutate(),
+      isUserDataLoading: isLoading,
     }),
     [isGetUserDataSuccess, userData, isLoading]
   );

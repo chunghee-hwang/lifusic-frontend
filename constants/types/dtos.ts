@@ -29,5 +29,6 @@ type UserData = {
 type UserContext = {
   isLogin: boolean;
   logout: Function;
+  isUserDataLoading: boolean;
   userData?: UserData | null;
 };
