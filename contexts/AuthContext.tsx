@@ -1,5 +1,5 @@
-import useLogoutMutation from '@/hooks/logout-mutation';
-import useUserDataQuery from '@/hooks/user-data-query';
+import useLogoutMutation from '@/hooks/account-api-hooks/logout-mutation';
+import useUserDataQuery from '@/hooks/account-api-hooks/user-data-query';
 import { createContext, useContext, useMemo } from 'react';
 
 const AuthContext = createContext<UserContext>({

@@ -1,7 +1,7 @@
 import axios from '@/constants/axios';
 
 export const GET_MY_MUSICS = async (
-  request: SearchArtistMusicRequest
+  request: any //SearchArtistMusicRequest
 ): Promise<SearchArtistMusicResponse> => {
   const response = await axios.get('/api/admin/musics', {
     params: request,

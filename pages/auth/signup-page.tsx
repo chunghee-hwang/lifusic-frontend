@@ -1,6 +1,6 @@
 import { UserRole } from '@/constants/constants';
 import Pages from '@/constants/pages';
-import useSignUpMutation from '@/hooks/sign-up-mutation';
+import useSignUpMutation from '@/hooks/account-api-hooks/sign-up-mutation';
 import { Container } from '@/styles/global-style';
 import { LoadingButton as LBtn } from '@mui/lab';
 import {

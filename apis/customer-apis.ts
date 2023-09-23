@@ -1,7 +1,7 @@
 import axios from '@/constants/axios';
 
 export const SEARCH_MUSIC = async (
-  request: SearchMusicRequest
+  request: any // SearchMusicRequest
 ): Promise<SearchMusicResponse> => {
   const response = await axios.get('/api/music/list', {
     params: request,
@@ -24,12 +24,12 @@ export const GET_ALL_PLAYLIST = async (): Promise<GetAllPlaylistResponse> => {
 export const ADD_MUSIC_TO_PLAYLIST = async (
   request: AddMusicToPlaylistRequest
 ): Promise<CommonResponse> => {
-  const response = await axios.put('/api/music/playlist/one');
+  const response = await axios.put('/api/music/playlist/one', request);
   return response.data;
 };
 
 export const GET_MUSICS_IN_PLAYLIST = async (
-  request: GetMusicsInPlaylistRequest
+  request: any // GetMusicsInPlaylistRequest
 ): Promise<GetMusicsInPlaylistResponse> => {
   const response = await axios.get(
     `/api/music/playlist/${request.playlistId}`,

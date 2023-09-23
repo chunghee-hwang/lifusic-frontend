@@ -77,9 +77,11 @@ type SearchedMusic = {
   thumbnailImageUrl?: string | null;
 };
 
+type MusicOrderBy = 'name' | 'artistName';
+
 type SearchMusicRequest = {
   keyword?: string;
-  orderBy?: 'name' | 'artistName';
+  orderBy?: MusicOrderBy;
   orderDirection?: OrderDirection;
   limit?: number;
   page?: number;
@@ -115,7 +117,7 @@ type AddMusicToPlaylistRequest = {
 
 type GetMusicsInPlaylistRequest = {
   playlistId: number;
-  orderBy?: 'name' | 'artistName';
+  orderBy?: MusicOrderBy;
   orderDirection?: OrderDirection;
 };
 
