@@ -38,6 +38,10 @@ const LoadingButton = styled(LBtn)`
   margin-top: 2rem !important;
 `;
 
+const Space = styled.div`
+  margin-top: 1rem !important;
+`;
+
 export default function SignUpPage() {
   const {
     register,
@@ -150,14 +154,16 @@ export default function SignUpPage() {
           회원 가입
         </LoadingButton>
       </Form>
-      {isSignUpError && (
-        <Alert severity="error">회원가입에 실패하였습니다.</Alert>
-      )}
-      {isSignUpSuccess && (
-        <Alert>
-          회원가입에 성공하였습니다. 잠시 후 로그인 페이지로 이동합니다.
-        </Alert>
-      )}
+      <Space>
+        {isSignUpError && (
+          <Alert severity="error">회원가입에 실패하였습니다.</Alert>
+        )}
+        {isSignUpSuccess && (
+          <Alert>
+            회원가입에 성공하였습니다. 잠시 후 로그인 페이지로 이동합니다.
+          </Alert>
+        )}
+      </Space>
     </Container>
   );
 }
