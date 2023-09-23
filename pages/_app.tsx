@@ -9,19 +9,25 @@ import { AuthContextProvider } from '@/contexts/AuthContext';
 import { GlobalStyle } from '@/styles/global-style';
 import Head from 'next/head';
 import Header from '@/components/Header';
+import { StompContextProvider } from '@/contexts/StompContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <GlobalStyle />
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>Lifusic</title>
-        </Head>
-        <Header />
-        <Component {...pageProps} />
+        <StompContextProvider>
+          <GlobalStyle />
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
+            <title>Lifusic</title>
+          </Head>
+          <Header />
+          <Component {...pageProps} />
+        </StompContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   );

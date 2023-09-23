@@ -9,6 +9,7 @@ import { styled } from 'styled-components';
 import { useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Container } from '@/styles/global-style';
+import { LoginRequest } from '@/constants/types/types';
 
 const Form = styled.form`
   display: flex;

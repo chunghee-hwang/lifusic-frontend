@@ -1,5 +1,6 @@
 import { GET_MY_MUSICS } from '@/apis/admin-apis';
 import { MY_MUSIC } from '@/constants/query-keys';
+import { SearchArtistMusicRequest } from '@/constants/types/types';
 import { useQuery } from '@tanstack/react-query';
 
 function useMyMusicsQuery(request: SearchArtistMusicRequest) {

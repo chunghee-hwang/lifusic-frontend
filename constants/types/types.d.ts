@@ -1,3 +1,10 @@
+import {
+  Client,
+  StompHeaders,
+  StompSubscription,
+  messageCallbackType,
+} from '@stomp/stompjs';
+
 type CommonResponse = {
   success: boolean;
 };
@@ -33,13 +40,6 @@ type UserData = {
   email: string;
   name: string;
   role: Role;
-};
-
-type UserContext = {
-  isLogin: boolean;
-  logout: Function;
-  isUserDataLoading: boolean;
-  userData?: UserData | null;
 };
 
 type OrderDirection = 'asc' | 'desc';
@@ -134,4 +134,21 @@ type GetMusicsInPlaylistResponse = Array<MusicInPlaylist>;
 
 type DeleteMusicsInPlaylistRequest = {
   musicInPlaylistIds: Array<number>;
+};
+
+type AuthContextValue = {
+  isLogin: boolean;
+  logout: Function;
+  isUserDataLoading: boolean;
+  userData?: UserData | null;
+};
+
+type StompContextValue = {
+  subscribe?: (
+    destination: string,
+    callback: messageCallbackType,
+    headers?: StompHeaders
+  ) => StompSubscription | undefined | null;
+  unsubscribe?: (subscription: StompSubscription) => void;
+  isConnected: boolean;
 };

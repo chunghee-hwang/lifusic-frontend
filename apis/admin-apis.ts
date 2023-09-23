@@ -1,4 +1,9 @@
 import axios from '@/constants/axios';
+import {
+  SearchArtistMusicResponse,
+  CommonResponse,
+  AddMusicRequest,
+} from '@/constants/types/types';
 
 export const GET_MY_MUSICS = async (
   request: any //SearchArtistMusicRequest
@@ -23,6 +28,16 @@ export const DELETE_MUSIC = async (
 export const ADD_MUSIC = async (
   request: AddMusicRequest
 ): Promise<CommonResponse> => {
-  const response = await axios.post('/api/admin/music', request);
+  const formData = new FormData();
+  Object.entries(request).forEach(([key, value]) => {
+    if (value) {
+      formData.append(key, value);
+    }
+  });
+  const response = await axios.post('/api/admin/music', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };

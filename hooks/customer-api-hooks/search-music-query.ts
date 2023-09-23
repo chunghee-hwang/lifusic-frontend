@@ -1,5 +1,6 @@
 import { SEARCH_MUSIC } from '@/apis/customer-apis';
 import { SEARCHED_MUSIC } from '@/constants/query-keys';
+import { SearchMusicRequest } from '@/constants/types/types';
 import { useQuery } from '@tanstack/react-query';
 
 function useSearchMusicQuery(request: SearchMusicRequest) {

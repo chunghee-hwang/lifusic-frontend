@@ -16,11 +16,13 @@
     "@mui/lab": "^5.0.0-alpha.145",
     "@mui/material": "^5.14.10",
     "@mui/styled-engine-sc": "^5.14.10",
+    "@stomp/stompjs": "^7.0.0",
     "@tanstack/react-query": "^4.35.3",
     "@types/js-cookie": "^3.0.4",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
+    "@types/sockjs-client": "^1.5.1",
     "@types/styled-components": "^5.1.27",
     "axios": "^1.5.0",
     "babel-plugin-styled-components": "^2.1.4",
@@ -32,7 +34,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.46.2",
+    "react-image-file-resizer": "^0.4.8",
+    "sockjs-client": "^1.6.1",
     "styled-components": "^6.0.8",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "ws": "^8.14.2"
   }
 }

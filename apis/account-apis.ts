@@ -1,5 +1,12 @@
 import axios from '@/constants/axios';
 import { AUTH_KEY } from '@/constants/cookie-keys';
+import {
+  LoginRequest,
+  LoginSuccessResponse,
+  CommonResponse,
+  SignUpRequest,
+  UserData,
+} from '@/constants/types/types';
 import Cookies from 'js-cookie';
 export const LOGIN = async (
   request: LoginRequest

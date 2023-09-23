@@ -1,5 +1,5 @@
-import { ADD_MUSIC_TO_PLAYLIST, CREATE_PLAYLIST } from '@/apis/customer-apis';
-import { MUSICS_IN_PLAYLIST, PLAYLISTS } from '@/constants/query-keys';
+import { ADD_MUSIC_TO_PLAYLIST } from '@/apis/customer-apis';
+import { MUSICS_IN_PLAYLIST } from '@/constants/query-keys';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function useAddMusicToPlaylistMutation() {
