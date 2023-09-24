@@ -23,7 +23,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: calc(100% - 5rem);
+  padding: 5rem 0;
   font-size: 1rem;
   width: 100%;
 `;

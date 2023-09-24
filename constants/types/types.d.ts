@@ -59,7 +59,7 @@ type SearchArtistMusicRequest = {
 };
 
 type SearchArtistMusicResponse = {
-  totalPage: number;
+  allMusicSize: number;
   page: number;
   musics: Array<ArtistMusic>;
 };

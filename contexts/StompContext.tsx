@@ -45,9 +45,6 @@ export const StompContextProvider: React.FC<{ children: React.ReactNode }> = ({
       headers?: StompHeaders
     ) => {
       if (isConnected && stompClient?.current) {
-        if (subscriptions.current.find((sub) => sub.id === subscription.id)) {
-          return null;
-        }
         const subscription = stompClient.current.subscribe(
           destination,
           (message: IMessage) => {
@@ -68,7 +65,7 @@ export const StompContextProvider: React.FC<{ children: React.ReactNode }> = ({
     (subscription: StompSubscription) => {
       if (isConnected && stompClient.current) {
         subscriptions.current =
-          subscriptions.current?.filter((sub) => sub.id !== subscription.id) ||
+          subscriptions.current?.filter((sub) => sub.id !== subscription?.id) ||
           [];
         console.log('unsubscribed:', subscription);
         subscription.unsubscribe();

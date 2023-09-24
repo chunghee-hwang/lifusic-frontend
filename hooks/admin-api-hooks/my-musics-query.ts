@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 function useMyMusicsQuery(request: SearchArtistMusicRequest) {
   const result = useQuery({
     queryKey: MY_MUSIC(request),
-    queryFn: GET_MY_MUSICS,
+    queryFn: () => GET_MY_MUSICS(request),
   });
   return result;
 }

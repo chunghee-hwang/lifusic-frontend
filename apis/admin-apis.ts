@@ -15,13 +15,15 @@ export const GET_MY_MUSICS = async (
 };
 
 export const GET_DOWNLOAD_MUSIC_URL = (musicId: number): string => {
-  return `/api/admin/music/${musicId}/file`;
+  return `${process.env.NEXT_PUBLIC_API_HOST}/api/admin/music/${musicId}/file`;
 };
 
-export const DELETE_MUSIC = async (
-  musicId: number
+export const DELETE_MUSICS = async (
+  musicIds: number[]
 ): Promise<CommonResponse> => {
-  const response = await axios.delete(`/api/admin/music/${musicId}`);
+  const response = await axios.post('/api/admin/music/deleteBatch', {
+    musicIds: musicIds ?? [],
+  });
   return response.data;
 };
 

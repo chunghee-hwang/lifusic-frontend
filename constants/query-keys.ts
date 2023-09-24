@@ -1,3 +1,5 @@
+import { SearchArtistMusicRequest, SearchMusicRequest } from './types/types';
+
 // 유저 정보
 export const USER_KEY = ['user'];
 
