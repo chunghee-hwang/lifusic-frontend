@@ -7,10 +7,9 @@ import {
   Row,
   SearchMusicRequest,
 } from '@/constants/types/types';
+import { useMusicPlaylist } from '@/contexts/MusicPlayerContext';
 import useCheckRole from '@/hooks/check-role';
 import useAddMusicToPlaylistMutation from '@/hooks/customer-api-hooks/add-music-to-playlist-mutation';
-import useAllPlaylistQuery from '@/hooks/customer-api-hooks/all-playlist-query';
-import useCreatePlaylistMutation from '@/hooks/customer-api-hooks/create-playlist-mutation';
 import useSearchMusicQuery from '@/hooks/customer-api-hooks/search-music-query';
 import { Container } from '@/styles/global-style';
 import { PlayCircle } from '@mui/icons-material';
@@ -124,19 +123,12 @@ export default function CustomerMusics() {
     isError: isAddError,
   } = useAddMusicToPlaylistMutation();
 
-  const {
-    data: playlists,
-    isLoading: isFetchingPlaylist,
-    isSuccess: isPlaylistFetched,
-  } = useAllPlaylistQuery();
-
-  const { mutate: createPlaylistMutation, isLoading: isCreatingPlaylist } =
-    useCreatePlaylistMutation();
+  const { defaultPlaylist } = useMusicPlaylist();
 
   const handlePlayButtonClick = useCallback(
     (event: React.MouseEvent<unknown>, musicId: number) => {
       event.stopPropagation();
-      const playlistId = playlists?.[0]?.id;
+      const playlistId = defaultPlaylist?.id;
       if (!playlistId || !musicId) {
         return;
       }
@@ -146,16 +138,8 @@ export default function CustomerMusics() {
       };
       addMusicToPlaylistMutation(request);
     },
-    [playlists, addMusicToPlaylistMutation]
+    [defaultPlaylist, addMusicToPlaylistMutation]
   );
-
-  useEffect(() => {
-    if (!playlists || playlists?.length < 1) {
-      if (!isFetchingPlaylist && isPlaylistFetched && !isCreatingPlaylist) {
-        createPlaylistMutation({ name: 'default playlist' });
-      }
-    }
-  }, [playlists, createPlaylistMutation]);
 
   useEffect(() => {
     if (isAddSuccess) {

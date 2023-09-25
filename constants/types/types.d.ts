@@ -188,3 +188,14 @@ type SortableTableProps = {
   totalRowsCount: number; // 전체 항목 개수
   usePagination: boolean; // 페이지네이션 사용 여부
 };
+
+type MusicPlayerContextValue = {
+  defaultPlaylist: Playlist; // 기본 플레이리스트
+  musicsInPlaylist: MusicInPlaylist[]; // 플레이리스트에 들어있는 음악 정보
+  isFetchingMusics: boolean; // 음악을 불러오는 중인지
+  isFetchMusicError: boolean; // 음악 불러오다가 에러 발생 여부
+  playlistMusicOrderBy: 'name' | 'artist' | string; // 플레이리스트에 있는 음악 정렬 필드
+  setPlaylistMusicOrderBy: (order: string) => void;
+  playlistMusicOrderDirection: OrderDirection; // 플레이리스트에 있는 음악 오름차순 내림차순
+  setPlaylistMusicOrderDirection: (direction: OrderDirection) => void;
+};
