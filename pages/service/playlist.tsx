@@ -3,7 +3,7 @@ import {
   DeleteMusicsInPlaylistRequest,
   HeadCell,
 } from '@/constants/types/types';
-import { useMusicPlaylist } from '@/contexts/MusicPlayerContext';
+import { useMusicPlaylist } from '@/contexts/MusicPlaylistContext';
 import useCheckRole from '@/hooks/check-role';
 import useDeleteMusicsInPlaylistMutation from '@/hooks/customer-api-hooks/delete-musics-in-playlist-mutation';
 import { Delete, PlayCircle } from '@mui/icons-material';

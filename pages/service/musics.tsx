@@ -7,7 +7,7 @@ import {
   Row,
   SearchMusicRequest,
 } from '@/constants/types/types';
-import { useMusicPlaylist } from '@/contexts/MusicPlayerContext';
+import { useMusicPlaylist } from '@/contexts/MusicPlaylistContext';
 import useCheckRole from '@/hooks/check-role';
 import useAddMusicToPlaylistMutation from '@/hooks/customer-api-hooks/add-music-to-playlist-mutation';
 import useSearchMusicQuery from '@/hooks/customer-api-hooks/search-music-query';

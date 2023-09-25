@@ -12,7 +12,7 @@ import Head from 'next/head';
 import Header from '@/components/Header';
 import { StompContextProvider } from '@/contexts/StompContext';
 import { useRouter } from 'next/router';
-import { MusicPlaylistContextProvider } from '@/contexts/MusicPlayerContext';
+import { MusicPlaylistContextProvider } from '@/contexts/MusicPlaylistContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
