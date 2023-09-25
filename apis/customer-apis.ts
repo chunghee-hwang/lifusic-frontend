@@ -8,10 +8,12 @@ import {
   CommonResponse,
   GetMusicsInPlaylistResponse,
   DeleteMusicsInPlaylistRequest,
+  SearchMusicRequest,
+  GetMusicsInPlaylistRequest,
 } from '@/constants/types/types';
 
 export const SEARCH_MUSIC = async (
-  request: any // SearchMusicRequest
+  request: SearchMusicRequest
 ): Promise<SearchMusicResponse> => {
   const response = await axios.get('/api/music/list', {
     params: request,
@@ -39,7 +41,7 @@ export const ADD_MUSIC_TO_PLAYLIST = async (
 };
 
 export const GET_MUSICS_IN_PLAYLIST = async (
-  request: any // GetMusicsInPlaylistRequest
+  request: GetMusicsInPlaylistRequest
 ): Promise<GetMusicsInPlaylistResponse> => {
   const response = await axios.get(
     `/api/music/playlist/${request.playlistId}`,
@@ -58,7 +60,7 @@ export const GET_MUSICS_IN_PLAYLIST = async (
 };
 
 export const GET_MUSIC_STREAM_URL = (musicFileId: number): string => {
-  return `/api/file/${musicFileId}/stream`;
+  return `${process.env.NEXT_PUBLIC_API_HOST}/api/file/${musicFileId}/stream`;
 };
 
 export const DELETE_MUSICS_IN_PLAYLIST = async (

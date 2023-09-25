@@ -3,10 +3,11 @@ import {
   SearchArtistMusicResponse,
   CommonResponse,
   AddMusicRequest,
+  SearchArtistMusicRequest,
 } from '@/constants/types/types';
 
 export const GET_MY_MUSICS = async (
-  request: any //SearchArtistMusicRequest
+  request: SearchArtistMusicRequest
 ): Promise<SearchArtistMusicResponse> => {
   const response = await axios.get('/api/admin/musics', {
     params: request,

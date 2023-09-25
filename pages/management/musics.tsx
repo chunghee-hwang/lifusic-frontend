@@ -101,7 +101,12 @@ export default function MusicManagement() {
     return (
       data?.musics?.map((music) => {
         const thumbnailImage = music.thumbnailImageUrl ? (
-          <img src={music.thumbnailImageUrl} width="50px" height="50px" />
+          <img
+            src={music.thumbnailImageUrl}
+            // width="50px"
+            height="50px"
+            style={{ backgroundSize: 'contain' }}
+          />
         ) : null;
         const downloadLink = (
           <IconButton
@@ -119,8 +124,9 @@ export default function MusicManagement() {
               id: 'thumbnailImage',
               content: thumbnailImage,
               style: {
-                width: 'auto',
-                height: '3.125rem',
+                width: '9.75rem',
+                height: '50px',
+                textAlign: 'center',
               },
             },
             {
@@ -153,7 +159,7 @@ export default function MusicManagement() {
           placeholder="곡명으로 검색"
         />
       </Stack>
-      {totalRowsCount > 0 && (
+      {!isSearching && totalRowsCount > 0 && (
         <SortableTable
           limit={limit}
           setLimit={setLimit}
@@ -163,6 +169,7 @@ export default function MusicManagement() {
           setOrderBy={setOrderBy}
           orderDirection={orderDirection}
           setOrderDirection={setOrderDirection}
+          isSelectable={true}
           selected={selected}
           setSelected={setSelected}
           headCells={headCells}

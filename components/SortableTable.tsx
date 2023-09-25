@@ -1,4 +1,4 @@
-import { OrderDirection } from '@/constants/types/types';
+import { SortableTableProps } from '@/constants/types/types';
 import {
   Box,
   Paper,
@@ -14,39 +14,6 @@ import {
 import Checkbox from '@mui/material/Checkbox';
 import { useCallback, useMemo } from 'react';
 
-type HeadCell = {
-  id: string;
-  content: any;
-  sortable: boolean;
-};
-
-type Column = {
-  id: number | string;
-  content: any;
-  style?: object;
-};
-
-type Row = {
-  id: number;
-  columns: Column[];
-};
-
-type SortableTableProps = {
-  limit: number; // 한 페이지당 몇 개 보여줄 건지
-  setLimit: (limit: number) => void;
-  page: number; // 현재 페이지
-  setPage: (page: number) => void;
-  orderBy: string; // 정렬할 항목
-  setOrderBy: (orderBy: string) => void;
-  orderDirection: OrderDirection; // 오름차순 or 내림차순
-  setOrderDirection: (orderDirection: OrderDirection) => void;
-  selected: Set<number>; // 선택된 항목의 아이디
-  setSelected: (selected: Set<number>) => void;
-  headCells: HeadCell[]; // 헤더에 보여줄 컬럼들
-  rows: Row[]; // 항목들
-  totalRowsCount: number; // 전체 항목 개수
-};
-
 const SortableTable: React.FC<SortableTableProps> = ({
   limit,
   setLimit,
@@ -56,6 +23,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
   setOrderBy,
   orderDirection,
   setOrderDirection,
+  isSelectable: selectable,
   selected,
   setSelected,
   headCells,
@@ -64,36 +32,47 @@ const SortableTable: React.FC<SortableTableProps> = ({
 }) => {
   const toggleOrderDirection = useCallback(() => {
     setOrderDirection(orderDirection === 'asc' ? 'desc' : 'asc');
-    setSelected(new Set());
+    setSelected?.(new Set());
   }, [orderDirection]);
 
-  const handleSelectAllRow = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      setSelected(new Set(rows?.map((row) => row.id) || []));
-      return;
-    }
-    setSelected(new Set());
-  };
+  const handleSelectAllRow = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (!selectable) {
+        return;
+      }
+      if (event.target.checked) {
+        setSelected?.(new Set(rows?.map((row) => row.id) || []));
+        return;
+      }
+      setSelected?.(new Set());
+    },
+    [selectable, setSelected]
+  );
 
   const handleRowClick = useCallback(
     (event: React.MouseEvent<unknown>, rowId: number) => {
+      if (!selectable) {
+        return;
+      }
       const newSelected = new Set(selected);
       if (newSelected.has(rowId)) {
         newSelected.delete(rowId);
       } else {
         newSelected.add(rowId);
       }
-      setSelected(newSelected);
+      setSelected?.(newSelected);
     },
-    [selected]
+    [selected, selectable]
   );
 
-  const isSelected = useCallback((id: number) => selected.has(id), [selected]);
+  const isSelected = useCallback((id: number) => selected?.has(id), [selected]);
 
-  const isAllSelected = useMemo(
-    () => (selected.size > 0 && selected.size === rows?.length) ?? 0,
-    [selected, rows]
-  );
+  const isAllSelected = useMemo(() => {
+    if (!selectable || !selected) {
+      return false;
+    }
+    return (selected.size > 0 && selected.size === rows?.length) ?? 0;
+  }, [selected, rows, selectable]);
 
   return useMemo(
     () => (
@@ -103,13 +82,15 @@ const SortableTable: React.FC<SortableTableProps> = ({
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      onChange={handleSelectAllRow}
-                      checked={isAllSelected}
-                    />
-                  </TableCell>
+                  {selectable && (
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        onChange={handleSelectAllRow}
+                        checked={isAllSelected}
+                      />
+                    </TableCell>
+                  )}
                   {headCells.map((headCell) => {
                     const isSorted =
                       headCell.sortable && orderBy === headCell.id;
@@ -140,21 +121,26 @@ const SortableTable: React.FC<SortableTableProps> = ({
               </TableHead>
               <TableBody>
                 {rows?.map((row) => {
-                  const isItemSelected = isSelected(row.id);
+                  const isItemSelected = selectable && isSelected(row.id);
                   return (
                     <TableRow
                       hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
+                      {...(selectable && {
+                        role: 'checkbox',
+                        'aria-checked': isItemSelected,
+                        tabIndex: -1,
+                        selected: isItemSelected,
+                        onClick: (event: React.MouseEvent<unknown>) =>
+                          handleRowClick(event, row.id),
+                      })}
                       key={row.id}
-                      selected={isItemSelected}
-                      sx={{ cursor: 'pointer' }}
-                      onClick={(event) => handleRowClick(event, row.id)}
+                      sx={{ cursor: selectable ? 'pointer' : 'default' }}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox color="primary" checked={isItemSelected} />
-                      </TableCell>
+                      {selectable && (
+                        <TableCell padding="checkbox">
+                          <Checkbox color="primary" checked={isItemSelected} />
+                        </TableCell>
+                      )}
                       {row.columns.map((column) => {
                         return (
                           <TableCell
@@ -180,13 +166,15 @@ const SortableTable: React.FC<SortableTableProps> = ({
             page={page - 1}
             onPageChange={(_event: unknown, newPage: number) => {
               setPage(newPage + 1);
-              setSelected(new Set());
+              setSelected?.(new Set());
             }}
             onRowsPerPageChange={(event) => {
               setPage(1);
-              setSelected(new Set());
+              setSelected?.(new Set());
               setLimit(+event.target.value);
             }}
+            showFirstButton
+            showLastButton
           />
         </Paper>
       </Box>

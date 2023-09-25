@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 function useUserDataQuery() {
   const result = useQuery({
     queryKey: USER_KEY,
-    queryFn: GET_USER_DATA,
+    queryFn: () => GET_USER_DATA(),
     retry: false,
   });
   return result;

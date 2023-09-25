@@ -74,10 +74,11 @@ type SearchedMusic = {
   id: number;
   name: string;
   artistName: string;
+  musicFileId: number;
   thumbnailImageUrl?: string | null;
 };
 
-type MusicOrderBy = 'name' | 'artistName';
+type MusicOrderBy = 'name' | 'artistName' | string;
 
 type SearchMusicRequest = {
   keyword?: string;
@@ -88,7 +89,7 @@ type SearchMusicRequest = {
 };
 
 type SearchMusicResponse = {
-  totalPage: number;
+  allMusicSize: number;
   page: number;
   musics: Array<SearchedMusic>;
 };
@@ -151,4 +152,38 @@ type StompContextValue = {
   ) => StompSubscription | undefined | null;
   unsubscribe?: (subscription: StompSubscription) => void;
   isConnected: boolean;
+};
+
+type HeadCell = {
+  id: string;
+  content: any;
+  sortable: boolean;
+};
+
+type Column = {
+  id: number | string;
+  content: any;
+  style?: object;
+};
+
+type Row = {
+  id: number;
+  columns: Column[];
+};
+
+type SortableTableProps = {
+  limit: number; // 한 페이지당 몇 개 보여줄 건지
+  setLimit: (limit: number) => void;
+  page: number; // 현재 페이지
+  setPage: (page: number) => void;
+  orderBy: string; // 정렬할 항목
+  setOrderBy: (orderBy: string) => void;
+  orderDirection: OrderDirection; // 오름차순 or 내림차순
+  setOrderDirection: (orderDirection: OrderDirection) => void;
+  isSelectable: boolean; // 선택 가능한 표 여부
+  selected?: Set<number>; // 선택된 항목의 아이디
+  setSelected?: (selected: Set<number>) => void;
+  headCells: HeadCell[]; // 헤더에 보여줄 컬럼들
+  rows: Row[]; // 항목들
+  totalRowsCount: number; // 전체 항목 개수
 };

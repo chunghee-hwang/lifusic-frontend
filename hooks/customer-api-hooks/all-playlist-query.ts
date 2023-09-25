@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 function useAllPlaylistQuery() {
   const result = useQuery({
     queryKey: PLAYLISTS,
-    queryFn: GET_ALL_PLAYLIST,
+    queryFn: () => GET_ALL_PLAYLIST(),
     retry: false,
   });
   return result;
