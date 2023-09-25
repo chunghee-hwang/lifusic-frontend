@@ -6,10 +6,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
 import { useMusicPlaylist } from './MusicPlaylistContext';
+
 /**
  * 음악 플레이어 컨텍스트
  */
@@ -87,6 +89,12 @@ export const MusicPlayerContextProvider: React.FC<{
     [musicsInPlaylist, currentMusic]
   );
 
+  useEffect(() => {
+    if (!currentMusic && musicsInPlaylist && musicsInPlaylist.length > 0) {
+      setCurrentMusic(musicsInPlaylist[0]);
+    }
+  }, [musicsInPlaylist, currentMusic]);
+
   const toPrevMusic = useCallback(() => {
     toPrevOrNextMusic(false);
   }, [toPrevOrNextMusic]);
@@ -105,6 +113,7 @@ export const MusicPlayerContextProvider: React.FC<{
     }),
     [playMusic, currentMusic, defaultPlaylist, toPrevMusic, toNextMusic]
   );
+
   return (
     <MusicPlayerContext.Provider value={value}>
       {children}

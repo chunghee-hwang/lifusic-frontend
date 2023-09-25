@@ -1,3 +1,4 @@
+import MusicPlayer from '@/components/MusicPlayer';
 import SearchBar from '@/components/SearchBar';
 import SortableTable from '@/components/SortableTable';
 import {
@@ -12,10 +13,20 @@ import { useMusicPlaylist } from '@/contexts/MusicPlaylistContext';
 import useCheckRole from '@/hooks/check-role';
 import useAddMusicToPlaylistMutation from '@/hooks/customer-api-hooks/add-music-to-playlist-mutation';
 import useSearchMusicQuery from '@/hooks/customer-api-hooks/search-music-query';
-import { Container } from '@/styles/global-style';
 import { PlayCircle } from '@mui/icons-material';
 import { Alert, CircularProgress, IconButton, Stack } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { styled } from 'styled-components';
+
+const Container = styled(Stack)`
+  position: relative;
+  flex-direction: column;
+  height: calc(100% - 101.5px);
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: hidden;
+  margin-top: 2rem;
+`;
 
 export default function CustomerMusics() {
   useCheckRole();
@@ -141,7 +152,7 @@ export default function CustomerMusics() {
         onSuccess: () => {
           setTimeout(() => {
             playMusic(musicId);
-          }, 0);
+          }, 1000);
         },
       });
     },
@@ -197,6 +208,7 @@ export default function CustomerMusics() {
           </Alert>
         </Stack>
       )}
+      <MusicPlayer />
     </Container>
   );
 }

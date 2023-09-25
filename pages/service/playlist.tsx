@@ -1,3 +1,4 @@
+import MusicPlayer from '@/components/MusicPlayer';
 import SortableTable from '@/components/SortableTable';
 import {
   DeleteMusicsInPlaylistRequest,
@@ -10,6 +11,15 @@ import useDeleteMusicsInPlaylistMutation from '@/hooks/customer-api-hooks/delete
 import { Delete, PlayCircle } from '@mui/icons-material';
 import { Alert, CircularProgress, IconButton, Stack } from '@mui/material';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { styled } from 'styled-components';
+
+const Container = styled(Stack)`
+  position: relative;
+  flex-direction: column;
+  height: calc(100% - 69.7px);
+  justify-content: space-between;
+  overflow-x: hidden;
+`;
 
 export default function Playlist() {
   useCheckRole();
@@ -139,43 +149,47 @@ export default function Playlist() {
   );
 
   return (
-    <Stack
-      direction={'column'}
-      marginTop={1}
-      alignItems={'center'}
-      justifyContent={'flex-start'}
-    >
-      {!isFetchingMusics && totalRowsCount > 0 && (
-        <SortableTable
-          orderBy={playlistMusicOrderBy}
-          setOrderBy={setPlaylistMusicOrderBy}
-          orderDirection={playlistMusicOrderDirection}
-          setOrderDirection={setPlaylistMusicOrderDirection}
-          isSelectable
-          selected={selected}
-          setSelected={setSelected}
-          headCells={headCells}
-          rows={rows}
-          totalRowsCount={totalRowsCount}
-          usePagination={false}
-        />
-      )}
+    <Container>
+      <Stack
+        direction={'column'}
+        marginTop={1}
+        alignItems={'center'}
+        justifyContent={'flex-start'}
+      >
+        {!isFetchingMusics && totalRowsCount > 0 && (
+          <SortableTable
+            orderBy={playlistMusicOrderBy}
+            setOrderBy={setPlaylistMusicOrderBy}
+            orderDirection={playlistMusicOrderDirection}
+            setOrderDirection={setPlaylistMusicOrderDirection}
+            isSelectable
+            selected={selected}
+            setSelected={setSelected}
+            headCells={headCells}
+            rows={rows}
+            totalRowsCount={totalRowsCount}
+            usePagination={false}
+          />
+        )}
 
-      {isFetchingMusics && (
-        <Stack marginTop={10}>
-          <CircularProgress color="success" />
-        </Stack>
-      )}
-      {!isFetchMusicError && !isFetchingMusics && totalRowsCount < 1 && (
-        <Stack marginTop={10}>
-          플레이리스트에 음악이 없습니다. [음악 찾기] 메뉴에서 담아주세요.
-        </Stack>
-      )}
-      {isFetchMusicError && (
-        <Stack marginTop={10}>
-          <Alert severity="error">음악을 불러오는데 실패했습니다.</Alert>
-        </Stack>
-      )}
-    </Stack>
+        {isFetchingMusics && (
+          <Stack marginTop={10}>
+            <CircularProgress color="success" />
+          </Stack>
+        )}
+        {!isFetchMusicError && !isFetchingMusics && totalRowsCount < 1 && (
+          <Stack marginTop={10}>
+            플레이리스트에 음악이 없습니다. [음악 찾기] 메뉴에서 담아주세요.
+          </Stack>
+        )}
+        {isFetchMusicError && (
+          <Stack marginTop={10}>
+            <Alert severity="error">음악을 불러오는데 실패했습니다.</Alert>
+          </Stack>
+        )}
+      </Stack>
+
+      <MusicPlayer />
+    </Container>
   );
 }
