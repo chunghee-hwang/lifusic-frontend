@@ -167,7 +167,13 @@ export default function CustomerMusics() {
 
   return (
     <Container>
-      <SearchBar setKeyword={setKeyword} />
+      <SearchBar
+        setKeyword={(keyword) => {
+          setPage(1);
+          setKeyword(keyword);
+        }}
+        placeholder="곡명 또는 아티스트명으로 검색"
+      />
       {!isSearching && totalRowsCount > 0 && (
         <SortableTable
           limit={limit}
@@ -182,6 +188,7 @@ export default function CustomerMusics() {
           headCells={headCells}
           rows={rows}
           totalRowsCount={totalRowsCount}
+          usePagination
         />
       )}
       {isSearching && (

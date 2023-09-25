@@ -175,6 +175,7 @@ export default function MusicManagement() {
           headCells={headCells}
           rows={rows}
           totalRowsCount={totalRowsCount}
+          usePagination
         />
       )}
       {isSearching && (

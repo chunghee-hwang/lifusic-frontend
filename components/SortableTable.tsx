@@ -23,12 +23,13 @@ const SortableTable: React.FC<SortableTableProps> = ({
   setOrderBy,
   orderDirection,
   setOrderDirection,
-  isSelectable: selectable,
+  isSelectable,
   selected,
   setSelected,
   headCells,
   rows,
   totalRowsCount,
+  usePagination,
 }) => {
   const toggleOrderDirection = useCallback(() => {
     setOrderDirection(orderDirection === 'asc' ? 'desc' : 'asc');
@@ -37,7 +38,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
 
   const handleSelectAllRow = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!selectable) {
+      if (!isSelectable) {
         return;
       }
       if (event.target.checked) {
@@ -46,12 +47,12 @@ const SortableTable: React.FC<SortableTableProps> = ({
       }
       setSelected?.(new Set());
     },
-    [selectable, setSelected]
+    [isSelectable, setSelected, rows]
   );
 
   const handleRowClick = useCallback(
     (event: React.MouseEvent<unknown>, rowId: number) => {
-      if (!selectable) {
+      if (!isSelectable) {
         return;
       }
       const newSelected = new Set(selected);
@@ -62,17 +63,17 @@ const SortableTable: React.FC<SortableTableProps> = ({
       }
       setSelected?.(newSelected);
     },
-    [selected, selectable]
+    [selected, isSelectable]
   );
 
   const isSelected = useCallback((id: number) => selected?.has(id), [selected]);
 
   const isAllSelected = useMemo(() => {
-    if (!selectable || !selected) {
+    if (!isSelectable || !selected) {
       return false;
     }
     return (selected.size > 0 && selected.size === rows?.length) ?? 0;
-  }, [selected, rows, selectable]);
+  }, [selected, rows, isSelectable]);
 
   return useMemo(
     () => (
@@ -82,7 +83,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
             <Table>
               <TableHead>
                 <TableRow>
-                  {selectable && (
+                  {isSelectable && (
                     <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
@@ -121,11 +122,11 @@ const SortableTable: React.FC<SortableTableProps> = ({
               </TableHead>
               <TableBody>
                 {rows?.map((row) => {
-                  const isItemSelected = selectable && isSelected(row.id);
+                  const isItemSelected = isSelectable && isSelected(row.id);
                   return (
                     <TableRow
                       hover
-                      {...(selectable && {
+                      {...(isSelectable && {
                         role: 'checkbox',
                         'aria-checked': isItemSelected,
                         tabIndex: -1,
@@ -134,9 +135,9 @@ const SortableTable: React.FC<SortableTableProps> = ({
                           handleRowClick(event, row.id),
                       })}
                       key={row.id}
-                      sx={{ cursor: selectable ? 'pointer' : 'default' }}
+                      sx={{ cursor: isSelectable ? 'pointer' : 'default' }}
                     >
-                      {selectable && (
+                      {isSelectable && (
                         <TableCell padding="checkbox">
                           <Checkbox color="primary" checked={isItemSelected} />
                         </TableCell>
@@ -158,24 +159,26 @@ const SortableTable: React.FC<SortableTableProps> = ({
               </TableBody>
             </Table>
           </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25, 50, 100]}
-            component="div"
-            count={totalRowsCount}
-            rowsPerPage={limit}
-            page={page - 1}
-            onPageChange={(_event: unknown, newPage: number) => {
-              setPage(newPage + 1);
-              setSelected?.(new Set());
-            }}
-            onRowsPerPageChange={(event) => {
-              setPage(1);
-              setSelected?.(new Set());
-              setLimit(+event.target.value);
-            }}
-            showFirstButton
-            showLastButton
-          />
+          {usePagination && (
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, 50, 100]}
+              component="div"
+              count={totalRowsCount}
+              rowsPerPage={limit ?? 0}
+              page={(page ?? 1) - 1}
+              onPageChange={(_event: unknown, newPage: number) => {
+                setPage?.(newPage + 1);
+                setSelected?.(new Set());
+              }}
+              onRowsPerPageChange={(event) => {
+                setPage?.(1);
+                setSelected?.(new Set());
+                setLimit?.(+event.target.value);
+              }}
+              showFirstButton
+              showLastButton
+            />
+          )}
         </Paper>
       </Box>
     ),

@@ -172,10 +172,10 @@ type Row = {
 };
 
 type SortableTableProps = {
-  limit: number; // 한 페이지당 몇 개 보여줄 건지
-  setLimit: (limit: number) => void;
-  page: number; // 현재 페이지
-  setPage: (page: number) => void;
+  limit?: number; // 한 페이지당 몇 개 보여줄 건지
+  setLimit?: (limit: number) => void;
+  page?: number; // 현재 페이지
+  setPage?: (page: number) => void;
   orderBy: string; // 정렬할 항목
   setOrderBy: (orderBy: string) => void;
   orderDirection: OrderDirection; // 오름차순 or 내림차순
@@ -186,4 +186,5 @@ type SortableTableProps = {
   headCells: HeadCell[]; // 헤더에 보여줄 컬럼들
   rows: Row[]; // 항목들
   totalRowsCount: number; // 전체 항목 개수
+  usePagination: boolean; // 페이지네이션 사용 여부
 };
