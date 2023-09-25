@@ -3,6 +3,7 @@ import {
   DeleteMusicsInPlaylistRequest,
   HeadCell,
 } from '@/constants/types/types';
+import { useMusicPlayer } from '@/contexts/MusicPlayerContext';
 import { useMusicPlaylist } from '@/contexts/MusicPlaylistContext';
 import useCheckRole from '@/hooks/check-role';
 import useDeleteMusicsInPlaylistMutation from '@/hooks/customer-api-hooks/delete-musics-in-playlist-mutation';
@@ -21,6 +22,7 @@ export default function Playlist() {
     isFetchingMusics,
     isFetchMusicError,
   } = useMusicPlaylist();
+  const { playMusic } = useMusicPlayer();
   const [selected, setSelected] = useState<Set<number>>(new Set());
 
   const headCells: HeadCell[] = useMemo(
@@ -86,6 +88,7 @@ export default function Playlist() {
                 <IconButton
                   onClick={(event: React.MouseEvent<unknown>) => {
                     event.stopPropagation();
+                    handlePlayButtonClick(music.musicId);
                   }}
                 >
                   <PlayCircle />
@@ -127,6 +130,13 @@ export default function Playlist() {
       alert('플레이리스트에서 음악을 삭제하던도중 에러가 발생했습니다.');
     }
   }, [isDeleteMusicSuccess, isDeleteMusicError]);
+
+  const handlePlayButtonClick = useCallback(
+    (musicId: number) => {
+      playMusic(musicId);
+    },
+    [playMusic]
+  );
 
   return (
     <Stack

@@ -1,6 +1,6 @@
 import {
   GetMusicsInPlaylistRequest,
-  MusicPlayerContextValue,
+  MusicPlaylistContextValue,
   OrderDirection,
 } from '@/constants/types/types';
 import useAllPlaylistQuery from '@/hooks/customer-api-hooks/all-playlist-query';
@@ -10,7 +10,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 /**
  * 플레이리스트에 있는 음악 정보를 담은 컨텍스트
  */
-const MusicPlaylistContext = createContext<MusicPlayerContextValue>({
+const MusicPlaylistContext = createContext<MusicPlaylistContextValue>({
   defaultPlaylist: {
     // 기본 플레이리스트
     id: -1,

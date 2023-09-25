@@ -7,6 +7,7 @@ import {
   Row,
   SearchMusicRequest,
 } from '@/constants/types/types';
+import { useMusicPlayer } from '@/contexts/MusicPlayerContext';
 import { useMusicPlaylist } from '@/contexts/MusicPlaylistContext';
 import useCheckRole from '@/hooks/check-role';
 import useAddMusicToPlaylistMutation from '@/hooks/customer-api-hooks/add-music-to-playlist-mutation';
@@ -124,7 +125,7 @@ export default function CustomerMusics() {
   } = useAddMusicToPlaylistMutation();
 
   const { defaultPlaylist } = useMusicPlaylist();
-
+  const { playMusic } = useMusicPlayer();
   const handlePlayButtonClick = useCallback(
     (event: React.MouseEvent<unknown>, musicId: number) => {
       event.stopPropagation();
@@ -136,7 +137,13 @@ export default function CustomerMusics() {
         musicId,
         playlistId,
       };
-      addMusicToPlaylistMutation(request);
+      addMusicToPlaylistMutation(request, {
+        onSuccess: () => {
+          setTimeout(() => {
+            playMusic(musicId);
+          }, 0);
+        },
+      });
     },
     [defaultPlaylist, addMusicToPlaylistMutation]
   );

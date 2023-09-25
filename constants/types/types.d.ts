@@ -189,7 +189,8 @@ type SortableTableProps = {
   usePagination: boolean; // 페이지네이션 사용 여부
 };
 
-type MusicPlayerContextValue = {
+// 플레이리스트 컨텍스트 타입
+type MusicPlaylistContextValue = {
   defaultPlaylist: Playlist; // 기본 플레이리스트
   musicsInPlaylist: MusicInPlaylist[]; // 플레이리스트에 들어있는 음악 정보
   isFetchingMusics: boolean; // 음악을 불러오는 중인지
@@ -198,4 +199,34 @@ type MusicPlayerContextValue = {
   setPlaylistMusicOrderBy: (order: string) => void;
   playlistMusicOrderDirection: OrderDirection; // 플레이리스트에 있는 음악 오름차순 내림차순
   setPlaylistMusicOrderDirection: (direction: OrderDirection) => void;
+};
+
+// 플레이어 컨텍스트 타입
+type MusicPlayerContextValue = {
+  /**
+   * 음악 재생
+   * @param musicId 음악 아이디
+   */
+  playMusic: (musicId: number) => void;
+
+  /**
+   * 현재 재생중인 음악
+   * 재생 중이 아니면 null
+   */
+  currentMusic: MusicInPlaylist | null;
+
+  /**
+   * 현재 플레이리스트
+   */
+  currentPlaylist: Playlist;
+
+  /**
+   * 이전 음악으로 이동
+   */
+  toPrevMusic: () => void;
+
+  /**
+   * 다음 음악으로 이동
+   */
+  toNextMusic: () => void;
 };

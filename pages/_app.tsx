@@ -13,6 +13,7 @@ import Header from '@/components/Header';
 import { StompContextProvider } from '@/contexts/StompContext';
 import { useRouter } from 'next/router';
 import { MusicPlaylistContextProvider } from '@/contexts/MusicPlaylistContext';
+import { MusicPlayerContextProvider } from '@/contexts/MusicPlayerContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -23,7 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
     children = <StompContextProvider>{component}</StompContextProvider>;
   } else if (router.pathname.startsWith('/service')) {
     children = (
-      <MusicPlaylistContextProvider>{component}</MusicPlaylistContextProvider>
+      <MusicPlaylistContextProvider>
+        <MusicPlayerContextProvider>{component}</MusicPlayerContextProvider>
+      </MusicPlaylistContextProvider>
     );
   } else {
     children = component;
