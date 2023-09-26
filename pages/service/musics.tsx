@@ -26,7 +26,7 @@ import { styled } from 'styled-components';
 const Container = styled(Stack)`
   position: relative;
   flex-direction: column;
-  height: calc(100% - 101.5px);
+  height: calc(100% - 104.8px);
   align-items: center;
   justify-content: space-between;
   overflow-x: hidden;

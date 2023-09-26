@@ -17,7 +17,7 @@ import { styled } from 'styled-components';
 const Container = styled(Stack)`
   position: relative;
   flex-direction: column;
-  height: calc(100% - 69.7px);
+  height: calc(100% - 72.8px);
   justify-content: space-between;
   overflow-x: hidden;
 `;

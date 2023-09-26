@@ -39,7 +39,7 @@ const Container = styled(Stack)`
 const MusicProgressBar = styled(Slider)`
   width: 100%;
   /* height: 1rem; */
-  position: absolute;
+  position: absolute !important;
   top: -10px;
   width: 100%;
 `;
