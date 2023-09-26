@@ -33,9 +33,9 @@ const Container = styled(Stack)`
 
 const MusicProgressBar = styled(Slider)`
   width: 100%;
-  height: 1rem;
+  /* height: 1rem; */
   position: absolute;
-  top: -20px;
+  top: -10px;
   width: 100%;
 `;
 
@@ -285,6 +285,12 @@ const MusicPlayer: React.FC = () => {
                 }}
                 onError={() => {
                   setIsMusicPlaying(false);
+                }}
+                onEnded={() => {
+                  setMusicProgress(0);
+                  setTimeout(() => {
+                    toNextMusic();
+                  }, 3000);
                 }}
               />
             </Stack>
