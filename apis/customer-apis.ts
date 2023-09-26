@@ -83,3 +83,7 @@ export const GET_ONE_MUSIC = async (
   const response = await axios.get(`/api/music/${musicId}`);
   return response.data;
 };
+
+export const GET_THUMBNAIL_IMAGE_URL = (fileApiUrl: string): string => {
+  return `${process.env.NEXT_PUBLIC_API_HOST}${fileApiUrl}`;
+};

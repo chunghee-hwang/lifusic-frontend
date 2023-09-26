@@ -13,7 +13,10 @@ import { Alert, IconButton, Slider, Stack } from '@mui/material';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import TimeUtils from '@/utils/time';
-import { GET_MUSIC_STREAM_URL } from '@/apis/customer-apis';
+import {
+  GET_MUSIC_STREAM_URL,
+  GET_THUMBNAIL_IMAGE_URL,
+} from '@/apis/customer-apis';
 import { useRouter } from 'next/router';
 import pages from '@/constants/pages';
 
@@ -268,7 +271,11 @@ const MusicPlayer: React.FC = () => {
               justifyContent="center"
             >
               <ThumbnailImage
-                src={music.thumbnailImageUrl ?? ''}
+                src={
+                  music.thumbnailImageUrl
+                    ? GET_THUMBNAIL_IMAGE_URL(music.thumbnailImageUrl)
+                    : ''
+                }
                 style={{
                   opacity: !!music.thumbnailImageUrl ? 1 : 0,
                 }}

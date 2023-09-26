@@ -12,6 +12,7 @@ import { GET_DOWNLOAD_MUSIC_URL } from '@/apis/admin-apis';
 import { Delete, Download } from '@mui/icons-material';
 import useDeleteMusicMutation from '@/hooks/admin-api-hooks/delete-music-mutation';
 import SortableTable from '@/components/SortableTable';
+import { GET_THUMBNAIL_IMAGE_URL } from '@/apis/customer-apis';
 export default function MusicManagement() {
   useCheckRole();
   const [searchRequest, setSearchRequest] = useState<SearchArtistMusicRequest>(
@@ -102,7 +103,7 @@ export default function MusicManagement() {
       data?.musics?.map((music) => {
         const thumbnailImage = music.thumbnailImageUrl ? (
           <img
-            src={music.thumbnailImageUrl}
+            src={GET_THUMBNAIL_IMAGE_URL(music.thumbnailImageUrl)}
             // width="50px"
             height="50px"
             style={{ backgroundSize: 'contain' }}

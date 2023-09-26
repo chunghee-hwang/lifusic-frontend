@@ -17,7 +17,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import { AUTH_KEY } from '@/constants/cookie-keys';
 
 const initialState: StompContextValue = {
   isConnected: false,
@@ -80,15 +79,10 @@ export const StompContextProvider: React.FC<{ children: React.ReactNode }> = ({
       return new SockJS(`${process.env.NEXT_PUBLIC_API_HOST}/ws-endpoint`);
     });
 
-    stompClient.current.connect(
-      {
-        Authorization: `Bearer ${Cookies.get(AUTH_KEY)}`,
-      },
-      () => {
-        console.log('web socket connected!');
-        setIsConnected(true);
-      }
-    );
+    stompClient.current.connect({}, () => {
+      console.log('web socket connected!');
+      setIsConnected(true);
+    });
 
     return () => {
       subscriptions.current?.forEach((subscription) => {

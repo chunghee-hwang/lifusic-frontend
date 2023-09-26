@@ -1,3 +1,4 @@
+import { GET_THUMBNAIL_IMAGE_URL } from '@/apis/customer-apis';
 import MusicPlayer from '@/components/MusicPlayer';
 import SearchBar from '@/components/SearchBar';
 import SortableTable from '@/components/SortableTable';
@@ -90,7 +91,10 @@ export default function CustomerMusics() {
           {
             id: 'thumbnailImage',
             content: music.thumbnailImageUrl ? (
-              <img src={music.thumbnailImageUrl} height={'50px'} />
+              <img
+                src={GET_THUMBNAIL_IMAGE_URL(music.thumbnailImageUrl)}
+                height={'50px'}
+              />
             ) : (
               <div></div>
             ),
