@@ -4,6 +4,8 @@ import {
   List,
   PauseCircleFilledRounded,
   PlayCircleFilledRounded,
+  Shuffle,
+  ShuffleOn,
   SkipNextRounded,
   SkipPreviousRounded,
 } from '@mui/icons-material';
@@ -72,7 +74,13 @@ const TotalMusicTime = styled.span`
 
 const MusicPlayer: React.FC = () => {
   const { musicsInPlaylist } = useMusicPlaylist();
-  const { currentMusic, toPrevMusic, toNextMusic } = useMusicPlayer();
+  const {
+    currentMusic,
+    toPrevMusic,
+    toNextMusic,
+    shuffleEnabled,
+    toggleShuffle,
+  } = useMusicPlayer();
 
   const [musicProgress, setMusicProgress] = useState(0);
   const musicAudio = useRef<HTMLAudioElement>(null);
@@ -244,6 +252,11 @@ const MusicPlayer: React.FC = () => {
                 }}
               >
                 <SkipNextRounded />
+              </IconButton>
+
+              {/* 셔플 */}
+              <IconButton style={{ color }} onClick={() => toggleShuffle()}>
+                {shuffleEnabled ? <ShuffleOn /> : <Shuffle />}
               </IconButton>
             </Stack>
 

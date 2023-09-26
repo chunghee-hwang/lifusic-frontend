@@ -223,4 +223,14 @@ type MusicPlayerContextValue = {
    * 다음 음악으로 이동
    */
   toNextMusic: () => void;
+
+  /**
+   * 셔플 기능 on/off 여부
+   */
+  shuffleEnabled: boolean;
+
+  /**
+   * 셔플 기능을 켜고 끈다
+   */
+  toggleShuffle: () => void;
 };

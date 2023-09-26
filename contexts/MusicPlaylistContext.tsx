@@ -15,10 +15,7 @@ import {
   useState,
 } from 'react';
 
-/**
- * 플레이리스트에 있는 음악 정보를 담은 컨텍스트
- */
-const MusicPlaylistContext = createContext<MusicPlaylistContextValue>({
+const initialState: MusicPlaylistContextValue = {
   defaultPlaylist: null,
   musicsInPlaylist: [], // 플레이리스트에 들어있는 음악 정보
   isFetchingMusics: false, // 음악을 불러오는 중인지
@@ -27,7 +24,13 @@ const MusicPlaylistContext = createContext<MusicPlaylistContextValue>({
   setPlaylistMusicOrderBy: (order: string) => {},
   playlistMusicOrderDirection: 'asc', // 플레이리스트에 있는 음악 오름차순 내림차순
   setPlaylistMusicOrderDirection: (direction: OrderDirection) => {},
-});
+};
+
+/**
+ * 플레이리스트에 있는 음악 정보를 담은 컨텍스트
+ */
+const MusicPlaylistContext =
+  createContext<MusicPlaylistContextValue>(initialState);
 
 MusicPlaylistContext.displayName = 'MusicPlaylistContext';
 
@@ -38,7 +41,9 @@ export const useMusicPlaylist = () => {
 export const MusicPlaylistContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [defaultPlaylist, setDefaultPlaylist] = useState<Playlist | null>(null);
+  const [defaultPlaylist, setDefaultPlaylist] = useState<Playlist | null>(
+    initialState.defaultPlaylist
+  );
 
   const {
     mutateAsync: createPlaylistMutation,
@@ -72,10 +77,11 @@ export const MusicPlaylistContextProvider: React.FC<{
     getDefaultPlaylist();
   }, []);
 
-  const [playlistMusicOrderBy, setPlaylistMusicOrderBy] =
-    useState<string>('name');
+  const [playlistMusicOrderBy, setPlaylistMusicOrderBy] = useState<string>(
+    initialState.playlistMusicOrderBy
+  );
   const [playlistMusicOrderDirection, setPlaylistMusicOrderDirection] =
-    useState<OrderDirection>('asc');
+    useState<OrderDirection>(initialState.playlistMusicOrderDirection);
 
   const {
     data: musicsInPlaylist,

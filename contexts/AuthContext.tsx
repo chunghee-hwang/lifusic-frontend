@@ -3,11 +3,13 @@ import useLogoutMutation from '@/hooks/account-api-hooks/logout-mutation';
 import useUserDataQuery from '@/hooks/account-api-hooks/user-data-query';
 import { createContext, useContext, useMemo } from 'react';
 
-const AuthContext = createContext<AuthContextValue>({
+const initialState: AuthContextValue = {
   isLogin: false,
   isUserDataLoading: false,
   logout: () => {},
-});
+};
+
+const AuthContext = createContext<AuthContextValue>(initialState);
 
 AuthContext.displayName = 'AuthContext';
 

@@ -14,15 +14,16 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
 import { AUTH_KEY } from '@/constants/cookie-keys';
 
-const StompContext = createContext<StompContextValue>({
+const initialState: StompContextValue = {
   isConnected: false,
-});
+};
+
+const StompContext = createContext<StompContextValue>(initialState);
 
 StompContext.displayName = 'StompContext';
 
@@ -36,7 +37,7 @@ export const StompContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const stompClient = useRef<CompatClient>();
   const subscriptions = useRef<Array<StompSubscription>>([]);
 
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(initialState.isConnected);
 
   const subscribe = useCallback(
     (
