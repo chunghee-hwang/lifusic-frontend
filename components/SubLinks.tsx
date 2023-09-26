@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import Pages from '@/constants/pages';
 import Link from 'next/link';
 import { styled } from 'styled-components';
+import { SubLinkProps } from '@/constants/types/types';
 
 const LinkComponent = styled(Link)`
   text-decoration: none;
