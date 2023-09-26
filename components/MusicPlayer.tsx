@@ -7,7 +7,7 @@ import {
   SkipNextRounded,
   SkipPreviousRounded,
 } from '@mui/icons-material';
-import { CircularProgress, IconButton, Slider, Stack } from '@mui/material';
+import { Alert, IconButton, Slider, Stack } from '@mui/material';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import TimeUtils from '@/utils/time';
@@ -19,10 +19,11 @@ const color = '#fbfbfb';
 
 const Container = styled(Stack)`
   width: 100%;
-  background-color: #2a0035;
+  background-color: #57006d;
   color: ${color};
   position: sticky;
   bottom: 0;
+  height: 3rem;
   margin-top: 1rem;
   padding: 2rem 0;
   justify-content: center;
@@ -32,9 +33,9 @@ const Container = styled(Stack)`
 
 const MusicProgressBar = styled(Slider)`
   width: 100%;
-  height: 0.5rem;
+  height: 1rem;
   position: absolute;
-  top: -10px;
+  top: -20px;
   width: 100%;
 `;
 
@@ -187,7 +188,9 @@ const MusicPlayer: React.FC = () => {
     <Container>
       {(!music && (
         <Stack>
-          <CircularProgress color="info" /> 음악을 불러오는 중...
+          <Alert severity="info">
+            [음악 찾기]에서 음악을 재생 목록에 넣어주세요.
+          </Alert>
         </Stack>
       )) || (
         <>

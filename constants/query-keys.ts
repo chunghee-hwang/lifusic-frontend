@@ -29,3 +29,11 @@ export const MUSICS_IN_PLAYLIST = (request?: SearchMusicRequest) => [
     ...request,
   },
 ];
+
+// 음악 하나
+export const ONE_MUSIC = (musicId: number) => [
+  'ONE_MUSIC',
+  {
+    musicId,
+  },
+];

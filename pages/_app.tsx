@@ -14,7 +14,7 @@ import { StompContextProvider } from '@/contexts/StompContext';
 import { useRouter } from 'next/router';
 import { MusicPlaylistContextProvider } from '@/contexts/MusicPlaylistContext';
 import { MusicPlayerContextProvider } from '@/contexts/MusicPlayerContext';
-
+import { SnackbarProvider } from 'notistack';
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   const router = useRouter();
@@ -39,8 +39,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>Lifusic</title>
       </Head>
       <AuthContextProvider>
-        <Header />
-        {children}
+        <SnackbarProvider>
+          <Header />
+          {children}
+        </SnackbarProvider>
       </AuthContextProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

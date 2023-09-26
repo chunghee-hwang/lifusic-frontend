@@ -72,9 +72,9 @@ export default function Playlist() {
 
   const rows = useMemo(
     () =>
-      (musicsInPlaylist ?? []).map((music) => {
+      (musicsInPlaylist ?? []).map((music, idx) => {
         return {
-          id: music.musicInPlaylistId,
+          id: music.musicInPlaylistId ?? idx,
           columns: [
             {
               id: 'thumbnailImage',

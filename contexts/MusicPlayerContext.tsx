@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react';
 import { useMusicPlaylist } from './MusicPlaylistContext';
+import { GET_ONE_MUSIC } from '@/apis/customer-apis';
 
 /**
  * 음악 플레이어 컨텍스트
@@ -18,10 +19,6 @@ import { useMusicPlaylist } from './MusicPlaylistContext';
 const MusicPlayerContext = createContext<MusicPlayerContextValue>({
   playMusic: (musicId: number) => {},
   currentMusic: null,
-  currentPlaylist: {
-    id: -1,
-    createdAt: 0,
-  },
   toPrevMusic: () => {},
   toNextMusic: () => {},
 });
@@ -35,22 +32,19 @@ export const useMusicPlayer = () => {
 export const MusicPlayerContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const { defaultPlaylist, musicsInPlaylist } = useMusicPlaylist();
+  const { musicsInPlaylist } = useMusicPlaylist();
 
   const [currentMusic, setCurrentMusic] = useState<MusicInPlaylist | null>(
     null
   );
   const playMusic = useCallback(
-    (musicId: number) => {
-      if (!musicsInPlaylist || musicsInPlaylist.length < 1) {
-        alert('재생 요청에 실패하였습니다.');
-        return;
-      }
+    async (musicId: number) => {
       const matchedMusic = musicsInPlaylist.find(
         (music) => music.musicId === musicId
       );
       if (!matchedMusic) {
-        alert('재생 요청에 실패하였습니다.');
+        const music = await GET_ONE_MUSIC(musicId);
+        setCurrentMusic(music);
       } else {
         setCurrentMusic(matchedMusic);
       }
@@ -107,11 +101,10 @@ export const MusicPlayerContextProvider: React.FC<{
     () => ({
       playMusic,
       currentMusic,
-      currentPlaylist: defaultPlaylist,
       toPrevMusic,
       toNextMusic,
     }),
-    [playMusic, currentMusic, defaultPlaylist, toPrevMusic, toNextMusic]
+    [playMusic, currentMusic, toPrevMusic, toNextMusic]
   );
 
   return (

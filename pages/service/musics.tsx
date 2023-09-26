@@ -1,10 +1,12 @@
 import MusicPlayer from '@/components/MusicPlayer';
 import SearchBar from '@/components/SearchBar';
 import SortableTable from '@/components/SortableTable';
+import { PLAYLISTS } from '@/constants/query-keys';
 import {
   AddMusicToPlaylistRequest,
   HeadCell,
   OrderDirection,
+  Playlist,
   Row,
   SearchMusicRequest,
 } from '@/constants/types/types';
@@ -15,7 +17,9 @@ import useAddMusicToPlaylistMutation from '@/hooks/customer-api-hooks/add-music-
 import useSearchMusicQuery from '@/hooks/customer-api-hooks/search-music-query';
 import { PlayCircle } from '@mui/icons-material';
 import { Alert, CircularProgress, IconButton, Stack } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useSnackbar } from 'notistack';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 
 const Container = styled(Stack)`
@@ -30,7 +34,7 @@ const Container = styled(Stack)`
 
 export default function CustomerMusics() {
   useCheckRole();
-
+  const { enqueueSnackbar } = useSnackbar();
   const [keyword, setKeyword] = useState<string>('');
   const [orderBy, setOrderBy] = useState<string>('name');
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('asc');
@@ -131,41 +135,70 @@ export default function CustomerMusics() {
 
   const {
     mutate: addMusicToPlaylistMutation,
-    isSuccess: isAddSuccess,
-    isError: isAddError,
+    isSuccess: isAddMusicSuccess,
+    isError: isAddMusicError,
+    isLoading: isAddMusicLoading,
   } = useAddMusicToPlaylistMutation();
 
-  const { defaultPlaylist } = useMusicPlaylist();
+  const { defaultPlaylist, isFetchingMusics: isFetchingMusicAndPlaylist } =
+    useMusicPlaylist();
+  const queryClient = useQueryClient();
   const { playMusic } = useMusicPlayer();
-  const handlePlayButtonClick = useCallback(
-    (event: React.MouseEvent<unknown>, musicId: number) => {
-      event.stopPropagation();
-      const playlistId = defaultPlaylist?.id;
-      if (!playlistId || !musicId) {
-        return;
-      }
-      const request: AddMusicToPlaylistRequest = {
-        musicId,
-        playlistId,
-      };
-      addMusicToPlaylistMutation(request, {
-        onSuccess: () => {
-          setTimeout(() => {
-            playMusic(musicId);
-          }, 1000);
-        },
-      });
-    },
-    [defaultPlaylist, addMusicToPlaylistMutation]
-  );
+  const savedDefaultPlaylist = useRef<Playlist>();
+  useEffect(() => {
+    if (defaultPlaylist) {
+      savedDefaultPlaylist.current = { ...defaultPlaylist };
+    }
+  }, [defaultPlaylist]);
+
+  const handlePlayButtonClick = (
+    event: React.MouseEvent<unknown>,
+    musicId: number
+  ) => {
+    event.stopPropagation();
+    const playlistId = savedDefaultPlaylist.current?.id;
+    if (!playlistId || !musicId) {
+      queryClient.invalidateQueries(PLAYLISTS);
+      enqueueSnackbar(
+        '음악 재생에 실패하였습니다. 새로고침 후 다시 시도 해주세요.',
+        {
+          variant: 'error',
+          anchorOrigin: { vertical: 'top', horizontal: 'left' },
+        }
+      );
+      return;
+    }
+    const request: AddMusicToPlaylistRequest = {
+      musicId,
+      playlistId,
+    };
+    addMusicToPlaylistMutation(request);
+    playMusic(musicId);
+  };
 
   useEffect(() => {
-    if (isAddSuccess) {
-      alert('음악을 플레이리스트에 추가하였습니다.');
-    } else if (isAddError) {
-      alert('음악을 플레이리스트에 추가하지 못 했습니다.');
+    if (!isAddMusicLoading) {
+      if (isAddMusicError) {
+        enqueueSnackbar('음악을 재생목록에 추가하는데에 실패하였습니다', {
+          variant: 'error',
+          anchorOrigin: { vertical: 'top', horizontal: 'left' },
+        });
+      } else if (isAddMusicSuccess) {
+        enqueueSnackbar('재생목록에 음악을 추가하였습니다.', {
+          variant: 'success',
+          anchorOrigin: { vertical: 'top', horizontal: 'left' },
+        });
+      }
     }
-  }, [isAddSuccess, isAddError]);
+  }, [isAddMusicError, isAddMusicLoading, isAddMusicSuccess]);
+
+  if (isFetchingMusicAndPlaylist || defaultPlaylist === null) {
+    return (
+      <Container>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   return (
     <Container>

@@ -97,7 +97,6 @@ type SearchMusicResponse = {
 type Playlist = {
   id: number;
   name?: string | null;
-  createdAt: number;
 };
 
 type CreatePlaylistRequest = {
@@ -117,13 +116,13 @@ type AddMusicToPlaylistRequest = {
 };
 
 type GetMusicsInPlaylistRequest = {
-  playlistId: number;
+  playlistId?: number;
   orderBy?: MusicOrderBy;
   orderDirection?: OrderDirection;
 };
 
 type MusicInPlaylist = {
-  musicInPlaylistId: number;
+  musicInPlaylistId?: number;
   musicId: number;
   fileId: number;
   musicName: string;
@@ -191,7 +190,7 @@ type SortableTableProps = {
 
 // 플레이리스트 컨텍스트 타입
 type MusicPlaylistContextValue = {
-  defaultPlaylist: Playlist; // 기본 플레이리스트
+  defaultPlaylist: Playlist | null; // 기본 플레이리스트
   musicsInPlaylist: MusicInPlaylist[]; // 플레이리스트에 들어있는 음악 정보
   isFetchingMusics: boolean; // 음악을 불러오는 중인지
   isFetchMusicError: boolean; // 음악 불러오다가 에러 발생 여부
@@ -214,11 +213,6 @@ type MusicPlayerContextValue = {
    * 재생 중이 아니면 null
    */
   currentMusic: MusicInPlaylist | null;
-
-  /**
-   * 현재 플레이리스트
-   */
-  currentPlaylist: Playlist;
 
   /**
    * 이전 음악으로 이동

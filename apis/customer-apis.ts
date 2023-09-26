@@ -10,6 +10,7 @@ import {
   DeleteMusicsInPlaylistRequest,
   SearchMusicRequest,
   GetMusicsInPlaylistRequest,
+  MusicInPlaylist,
 } from '@/constants/types/types';
 
 export const SEARCH_MUSIC = async (
@@ -43,6 +44,9 @@ export const ADD_MUSIC_TO_PLAYLIST = async (
 export const GET_MUSICS_IN_PLAYLIST = async (
   request: GetMusicsInPlaylistRequest
 ): Promise<GetMusicsInPlaylistResponse> => {
+  if (!request.playlistId) {
+    throw new Error('playlist id is required');
+  }
   const response = await axios.get(
     `/api/music/playlist/${request.playlistId}`,
     {
@@ -70,5 +74,12 @@ export const DELETE_MUSICS_IN_PLAYLIST = async (
     `/api/music/playlist/batchDeleteMusics`,
     request
   );
+  return response.data;
+};
+
+export const GET_ONE_MUSIC = async (
+  musicId: number
+): Promise<MusicInPlaylist> => {
+  const response = await axios.get(`/api/music/${musicId}`);
   return response.data;
 };
