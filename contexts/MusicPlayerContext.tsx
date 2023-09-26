@@ -13,6 +13,7 @@ import {
 } from 'react';
 import { useMusicPlaylist } from './MusicPlaylistContext';
 import { GET_ONE_MUSIC } from '@/apis/customer-apis';
+import { LOCAL_CACHE_KEYS } from '@/constants/constants';
 
 const initialContext: MusicPlayerContextValue = {
   playMusic: (musicId: number) => {},
@@ -61,6 +62,48 @@ export const MusicPlayerContextProvider: React.FC<{
   const [shuffleEnabled, setShuffleEnabled] = useState<boolean>(
     initialContext.shuffleEnabled
   );
+
+  /**
+   *  로컬스토리지 접근 로직
+   * */
+  // 셔플을 이전에 사용했다면 켬
+  useEffect(() => {
+    if (typeof localStorage !== 'undefined') {
+      const useShuffleCache: string | null = localStorage.getItem(
+        LOCAL_CACHE_KEYS.USE_SHUFFLE
+      );
+      setShuffleEnabled(useShuffleCache === 'true');
+    }
+  }, []);
+
+  // 마지막 재생한 음악 가져오기
+  useEffect(() => {
+    if (musicsInPlaylist && musicsInPlaylist.length > 0) {
+      if (typeof localStorage !== 'undefined') {
+        const lastPlayedMusicId: string | null = localStorage.getItem(
+          LOCAL_CACHE_KEYS.LAST_PLAYED_MUSIC_ID
+        );
+        if (lastPlayedMusicId) {
+          try {
+            const matchedMusic = musicsInPlaylist.find(
+              (music) => music.musicId === +lastPlayedMusicId
+            );
+            if (matchedMusic) {
+              setTimeout(() => {
+                playMusic(matchedMusic.musicId);
+              }, 0);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+    }
+  }, [musicsInPlaylist]);
+
+  /**
+   *  로컬스토리지 접근 로직 끝
+   * */
 
   const getNextRandomMusic = (): MusicInPlaylist => {
     // 플레이리스트에서 아직 재생되지 않은 음악 목록 가져옴
@@ -117,6 +160,13 @@ export const MusicPlayerContextProvider: React.FC<{
   );
 
   const toggleShuffle = useCallback(() => {
+    // 로컬스토리지에 셔플을 사용중인지 여부 저장
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(
+        LOCAL_CACHE_KEYS.USE_SHUFFLE,
+        String(!shuffleEnabled)
+      );
+    }
     setShuffleEnabled(!shuffleEnabled);
   }, [shuffleEnabled, setShuffleEnabled]);
   /**
@@ -130,6 +180,14 @@ export const MusicPlayerContextProvider: React.FC<{
       if (playedMusicIdList.current.length === musicsInPlaylist.length) {
         // 모두 다 재생이 되었다면 플레이된 음악 리스트 초기화
         playedMusicIdList.current.splice(0, playedMusicIdList.current.length);
+      }
+
+      // 로컬스토리지에 마지막으로 재생한 음악 저장
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(
+          LOCAL_CACHE_KEYS.LAST_PLAYED_MUSIC_ID,
+          String(currentMusic.musicId)
+        );
       }
     }
   }, [currentMusic]);
