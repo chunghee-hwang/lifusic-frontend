@@ -32,7 +32,8 @@ export default function Playlist() {
     isFetchingMusics,
     isFetchMusicError,
   } = useMusicPlaylist();
-  const { playMusic } = useMusicPlayer();
+
+  const { playMusic, currentMusic } = useMusicPlayer();
   const [selected, setSelected] = useState<Set<number>>(new Set());
 
   const headCells: HeadCell[] = useMemo(
@@ -73,6 +74,7 @@ export default function Playlist() {
   const rows = useMemo(
     () =>
       (musicsInPlaylist ?? []).map((music, idx) => {
+        const isPlayedMusic = music.musicId === currentMusic?.musicId;
         return {
           id: music.musicInPlaylistId ?? idx,
           columns: [
@@ -86,7 +88,11 @@ export default function Playlist() {
             },
             {
               id: 'name',
-              content: music.musicName,
+              content: isPlayedMusic ? (
+                <b>{music.musicName}</b>
+              ) : (
+                music.musicName
+              ),
             },
             {
               id: 'artistName',
@@ -108,7 +114,7 @@ export default function Playlist() {
           ],
         };
       }),
-    [musicsInPlaylist]
+    [musicsInPlaylist, currentMusic]
   );
 
   const totalRowsCount = useMemo(() => {

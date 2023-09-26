@@ -136,6 +136,7 @@ const SortableTable: React.FC<SortableTableProps> = ({
                       })}
                       key={row.id}
                       sx={{ cursor: isSelectable ? 'pointer' : 'default' }}
+                      {...(row.style && { ...row.style })}
                     >
                       {isSelectable && (
                         <TableCell padding="checkbox">

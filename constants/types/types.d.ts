@@ -168,6 +168,7 @@ type Column = {
 type Row = {
   id: number;
   columns: Column[];
+  style?: object;
 };
 
 type SortableTableProps = {
